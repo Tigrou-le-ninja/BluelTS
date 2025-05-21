@@ -85,7 +85,7 @@ function displayCategories (categories) {
                 const id = Number(event.target.dataset.id);
 
                 // Sélectionner le bouton filtre en fonction de la catégorie
-                // selectionButtonFilter(id);
+                // selectionButtonFilter(id); --> fonction activeButton
 
                 // Appliquer le filtre en fonction de l'identifiant catégorie
                 applyFilter(id);
@@ -111,11 +111,11 @@ for (let element of allClass) {
         element.classList.remove("hid")
         }
     }
-} else {
+    } else {
     if (element.classList.contains("hid")) {
         element.classList.remove("hid")
         }
-}
+    }
 }
 
 }
