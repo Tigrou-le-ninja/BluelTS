@@ -65,6 +65,20 @@ async function getCategories () {
 function displayCategories (categories) {
 
    const filters = document.querySelector(".filters") 
+
+// Créer le bouton "Tous"
+        const boutonTous = document.createElement("button")
+        boutonTous.setAttribute("data-id", 0)
+        boutonTous.classList.add("boutonFiltre")
+        boutonTous.textContent = "Tous"
+        boutonTous.addEventListener("click", function (event) {
+            const id = Number(event.target.dataset.id)
+            activateButton ()
+            applyFilter (id)
+        })
+
+        filters.appendChild(boutonTous)
+
 // Créer un bouton pour chaque catégorie
         for (let category of categories) {
             // Création du bouton
@@ -85,10 +99,10 @@ function displayCategories (categories) {
                 const id = Number(event.target.dataset.id);
 
                 // Sélectionner le bouton filtre en fonction de la catégorie
-                // selectionButtonFilter(id); --> fonction activeButton
+                activateButton ()
 
                 // Appliquer le filtre en fonction de l'identifiant catégorie
-                applyFilter(id);
+                applyFilter (id);
             });
 
             filters.appendChild(boutonFiltreElement)
@@ -98,10 +112,8 @@ function displayCategories (categories) {
 getCategories()
 
 function applyFilter (id) {
-console.log(id)
 const allClass = document.getElementsByClassName("fig")
 for (let element of allClass) {
-    console.log(element.dataset.cat)
     if (id != 0) {
         console.log(parseInt(element.dataset.cat))
          if (parseInt(element.dataset.cat) != id)
@@ -117,26 +129,11 @@ for (let element of allClass) {
         }
     }
 }
-
 }
 
-/**
- * Sort projects by categs
- * @param {Evenment} e
- */
-const sortByCat = (e) => {
-    const allClass = document.getElementsByClassName("fig");
-    for (let elem of allClass) {
-        //id = 0 ==> categs ALL
-        if (e.target.id !== "0") {
-            if (elem.dataset.cat !== e.target.id) {
-                elem.classList.add("hid");
-            } else {
-                if (elem.classList.contains("hid"))
-                    elem.classList.remove("hid");
-            }
-        } else {
-            if (elem.classList.contains("hid")) elem.classList.remove("hid");
-        }
+function activateButton () {
+    const allButtons = document.getElementsByClassName("button")
+    for (let button of allButtons) {
+    button.classList.toggle("activeButtton")
     }
-};
+}
