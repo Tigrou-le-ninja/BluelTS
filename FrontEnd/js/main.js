@@ -73,7 +73,6 @@ function displayCategories (categories) {
         boutonTous.textContent = "Tous"
         boutonTous.addEventListener("click", function (event) {
             const id = Number(event.target.dataset.id)
-            activateButton ()
             applyFilter (id)
         })
 
@@ -97,9 +96,6 @@ function displayCategories (categories) {
             boutonFiltreElement.addEventListener("click", function (event) {
                 // Identifiant de la catégorie contenu dans le bouton
                 const id = Number(event.target.dataset.id);
-
-                // Sélectionner le bouton filtre en fonction de la catégorie
-                activateButton ()
 
                 // Appliquer le filtre en fonction de l'identifiant catégorie
                 applyFilter (id);

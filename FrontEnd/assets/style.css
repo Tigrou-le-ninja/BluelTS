@@ -189,3 +189,31 @@ footer nav ul {
 .hid {
 	display: none;
 }
+
+.filters {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	gap: 10px;
+	margin: 50px;
+}
+
+.boutonFiltre {
+	padding: 10px 20px;
+	border-radius: 60px;
+	border: #1D6154 1px solid;
+	background: none;
+	color: #1D6154;
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 16px;
+	text-align: center;
+	margin: 0;
+	width: auto;
+	box-sizing: border-box;
+}
+
+.boutonFiltre:hover, .boutonFiltre:focus {
+	background-color: #1D6154;
+	color: #FFFFFF;
+}
