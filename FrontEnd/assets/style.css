@@ -261,3 +261,11 @@ a:visited {
 a:hover {
 	color: #B1663C;
 }
+
+.bold {
+	font-weight: 800;
+}
+
+#login-section form {
+	text-align: left;
+}
