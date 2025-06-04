@@ -36,11 +36,12 @@ async function connexion(user) {
         console.log(response);
         const data = await response.json();
         console.log(data);
-        } catch (error) {
-        alert(error);
-    }
+
         (data) => {
             localStorage.setItem("token", data.token); 
             window.location.href = "./index.html"; 
         }
+    } catch (error) {
+        alert(error);
+    }
 }
