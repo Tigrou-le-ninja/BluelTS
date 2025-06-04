@@ -1,3 +1,19 @@
+// Tant que le DOM n'est pas chargé, on ne peut pas manipuler les éléments HTML
+// On attend que le DOM soit complètement chargé avant d'exécuter le script
+document.addEventListener("DOMContentLoaded", (event) => {
+  console.log("DOM fully loaded and parsed");
+  isUserLoggedIn();
+});
+
+function isUserLoggedIn () {
+    // Vérifier si le token existe dans le localStorage
+    const token = localStorage.getItem("token");
+    if (token) {
+        // Ajouter classe CSS à la bannière d'édition et au bouton modifier pour les montrer
+    }
+    getWorks();
+}
+
 async function getWorks () {
     try {
        const response = await fetch ("http://localhost:5678/api/works")
@@ -13,8 +29,6 @@ async function getWorks () {
     }
     catch (error) {alert(error)}
 }
-
-getWorks()
 
 function displayWork (work) {
     // Sélectionner le composant "gallery"

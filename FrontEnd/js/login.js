@@ -18,6 +18,9 @@ form.addEventListener("submit", function (event) {
 });
 
 async function connexion(user) {
+    const msgError = document.getElementById("login-error");
+    msgError.textContent = "";
+
     try {
         // Poster à l'API et attendre la réponse
         const response = await fetch("http://localhost:5678/api/users/login", {
@@ -36,12 +39,13 @@ async function connexion(user) {
         console.log(response);
         const data = await response.json();
         console.log(data);
-
-        (data) => {
-            localStorage.setItem("token", data.token); 
-            window.location.href = "./index.html"; 
-        }
+        
+        localStorage.setItem("token", data.token); 
+        window.location.href = "./index.html"; 
     } catch (error) {
-        alert(error);
+        // alert(error);
+        if (msgError) {
+            msgError.textContent = "Identifiant ou mot de passe incorrect";
+        }
     }
-}
+}       
