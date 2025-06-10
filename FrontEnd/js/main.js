@@ -8,8 +8,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
 function isUserLoggedIn () {
     // Vérifier si le token existe dans le localStorage
     const token = localStorage.getItem("token");
-    if (token) {
-        // Ajouter classe CSS à la bannière d'édition et au bouton modifier pour les montrer
+    const editionBanner = document.querySelector(".edition-banner");
+    if (token !== null) {
+        // style display flex à la div "edition-banner"
+        editionBanner.style.display = "flex";
+    } else {
+        // style display none à la div "edition-banner"
+        editionBanner.style.display = "none";
     }
     getWorks();
 }
