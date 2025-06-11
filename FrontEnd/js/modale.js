@@ -39,10 +39,17 @@ function displayWorkModal (work) {
     imageElement.src = work.imageUrl;
     imageElement.alt = work.title;
 
-    // Insérer les éléments image et figcaption dans l'élement figure
-    figureElement.appendChild(imageElement);
+    // Création de l'élément "deleteButton", d'une classe "deleteButton" et d'un id qui est celui du work concerné, et d'une icône pour le bouton
+    const deleteButton = document.createElement("button");
+    deleteButton.classList.add("deleteButton");
+    deleteButton.setAttribute("id", work.id);
+    deleteButton.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
 
-    // Insérer l'élément figure dans la section "modalGallery"
+    // Insérer les éléments image, figcaption et deleteButton dans l'élement figure
+    figureElement.appendChild(imageElement);
+    figureElement.appendChild(deleteButton);
+
+    // Insérer l'élément figure dans la section "modalContent"
     modalContent.appendChild(figureElement);
 }
 
@@ -59,3 +66,5 @@ editButton.addEventListener("click", () => {
 closeButton.addEventListener("click", () => {
   dialog.close();
 });
+
+// Un click sur deleteButton supprime l'élément qui a le même id que celui du bouton grâce à une fonction deleteWork qui call l'API
