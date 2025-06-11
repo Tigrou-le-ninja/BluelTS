@@ -270,7 +270,6 @@ a:hover {
 }
 
 /* Bannière d'édition */
-
 .edition-banner {
 	background-color: #000000;
 	width: 100%;
@@ -296,8 +295,10 @@ a:hover {
 	margin-top: 50px;
 }
 
+/* Modale */
 .modalContent {
 	display: flex;
+	flex-wrap: wrap;
 }
 
 .modalContent figure {
@@ -310,3 +311,13 @@ a:hover {
 	height: 100%;
 	object-fit: cover;
 }
+
+.modalTotal {
+	width: 630px;
+	height: 688px;
+	justify-self: center;
+	align-self: center;
+	border-radius: 10px;
+	border: none;
+}
+

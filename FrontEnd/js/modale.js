@@ -1,3 +1,5 @@
+// Générer dynamiquement le contenu de la modale
+
 getWorksModal();
 
 async function getWorksModal () {
@@ -43,3 +45,17 @@ function displayWorkModal (work) {
     // Insérer l'élément figure dans la section "modalGallery"
     modalContent.appendChild(figureElement);
 }
+
+// Afficher la modale sous forme de boîte de dialogue quand on clique sur le bouton "Modifier"
+const dialog = document.querySelector("dialog");
+const editButton = document.getElementById("edition");
+const closeButton = document.getElementById("closeModalBtn");
+
+editButton.addEventListener("click", () => {
+  dialog.showModal();
+});
+
+// Un click sur la croix ferme la modale
+closeButton.addEventListener("click", () => {
+  dialog.close();
+});
