@@ -46,7 +46,7 @@ function displayWork (work) {
     figureElement.classList.add("fig")
 
     // Ajouter l'attribut "id" à l'élément "figureElement"
-    figureElement.setAttribute("id", work.id);
+    figureElement.setAttribute("id", "main_" + work.id);
 
     // Ajout attribut personnalisé "categoryID" à l'élément "figureElement"
     figureElement.dataset.cat = work.categoryId;

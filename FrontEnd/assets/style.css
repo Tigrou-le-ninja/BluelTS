@@ -321,3 +321,7 @@ a:hover {
 	border: none;
 }
 
+::backdrop {
+  background-color: #000000;
+  opacity: 0.30;
+}

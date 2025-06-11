@@ -29,7 +29,7 @@ function displayWorkModal (work) {
     figureElement.classList.add("fig")
 
     // Ajouter l'attribut "id" à l'élément "figureElement"
-    figureElement.setAttribute("id", work.id);
+    figureElement.setAttribute("id", "modal_" + work.id);
 
     // Ajout attribut personnalisé "categoryID" à l'élément "figureElement"
     figureElement.dataset.cat = work.categoryId;
@@ -44,6 +44,9 @@ function displayWorkModal (work) {
     deleteButton.classList.add("deleteButton");
     deleteButton.setAttribute("id", work.id);
     deleteButton.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
+    deleteButton.addEventListener("click", (event) => {
+      deleteWork(id);
+    })
 
     // Insérer les éléments image, figcaption et deleteButton dans l'élement figure
     figureElement.appendChild(imageElement);
@@ -67,4 +70,30 @@ closeButton.addEventListener("click", () => {
   dialog.close();
 });
 
-// Un click sur deleteButton supprime l'élément qui a le même id que celui du bouton grâce à une fonction deleteWork qui call l'API
+// Un click en dehors de la modale la ferme
+window.addEventListener("click", (event) => {
+  if (typeof dialog !== "undefined" && event.target === dialog) {
+    dialog.close();
+  }
+});
+
+async function deleteWork (id) {
+  // Vérifier si l'utilisateur est connecté
+  if (!localStorage.getItem("token")) {
+    return;
+  }
+
+  // Appel à l'API par la route DELETE
+  try {
+  const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("token")
+    }
+  })
+} catch (error) {
+  console.error("Erreur lors de la suppression de l'élément :", error);
+  alert("Une erreur s'est produite lors de la suppression de l'élément.");
+  return;
+}}
