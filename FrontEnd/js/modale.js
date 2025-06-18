@@ -42,10 +42,10 @@ function displayWorkModal (work) {
     // Création de l'élément "deleteButton", d'une classe "deleteButton" et d'un id qui est celui du work concerné, et d'une icône pour le bouton
     const deleteButton = document.createElement("button");
     deleteButton.classList.add("deleteButton");
-    deleteButton.setAttribute("id", work.id);
+    deleteButton.setAttribute("id", work.id); // INUTILE
     deleteButton.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
-    deleteButton.addEventListener("click", (event) => {
-      deleteWork(id);
+    deleteButton.addEventListener("click", () => {
+      deleteWork(work.id);
     })
 
     // Insérer les éléments image, figcaption et deleteButton dans l'élement figure
