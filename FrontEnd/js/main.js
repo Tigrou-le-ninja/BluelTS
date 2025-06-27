@@ -1,3 +1,5 @@
+import { displayWorkModal , displaySelectCategories } from "./modale.js";
+
 // Tant que le DOM n'est pas chargé, on ne peut pas manipuler les éléments HTML
 // On attend que le DOM soit complètement chargé avant d'exécuter le script
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -28,7 +30,8 @@ async function getWorks () {
        }
        const works = await response.json ()
        for (let work of works) {
-        displayWork (work)
+        displayWork (work);
+        displayWorkModal(work);
        }
       // console.log(works)
     }
@@ -77,6 +80,7 @@ async function getCategories () {
        }
        const categories = await response.json ()
         displayCategories (categories)
+        // displaySelectCategories (categories)
     }
     catch (error) {alert(error)}
 }

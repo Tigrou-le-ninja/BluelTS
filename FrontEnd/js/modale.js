@@ -1,23 +1,7 @@
+import {getCategories} from "./categories.js";
+
 // Générer dynamiquement le contenu de la partie ajout de la modale
-getWorksModal();
-
-async function getWorksModal () {
-    try {
-       const response = await fetch ("http://localhost:5678/api/works")
-       console.log(response)
-       if (!response.ok) {
-        throw new Error ("Une erreur " + response.status + " s'est produite")
-       }
-       const works = await response.json ()
-       for (let work of works) {
-        displayWorkModal (work)
-       }
-      // console.log(works)
-    }
-    catch (error) {alert(error)}
-}
-
-function displayWorkModal (work) {
+export function displayWorkModal (work) {
     // Sélectionner le composant "modalContent1"
     const modalContent1 = document.querySelector(".modalContent1");
 
@@ -138,6 +122,28 @@ async function deleteWork (id) {
   return;
 }}
 
+// Fonction qui remplit le sélecteur de catégories dans la partie ajout de la modale
+export async function displaySelectCategories (categories) {
+  // // Sélectionner le sélecteur de catégories
+  // const selectCategory = document.getElementById("selectCategory");
+
+  // // Vider le sélecteur avant de le remplir
+  // selectCategory.innerHTML = "";
+
+  // // Créer une option vide pour la sélection
+  // const emptyOption = document.createElement("option");
+  // emptyOption.value = "";
+  // emptyOption.textContent = "Sélectionner une catégorie";
+  // selectCategory.appendChild(emptyOption);
+
+  // // Remplir le sélecteur avec les catégories
+  // for (let category of categories) {
+  //   const option = document.createElement("option");
+  //   option.value = category.id;
+  //   option.textContent = category.name;
+  //   selectCategory.appendChild(option);
+  // }
+}
 
 // Un click sur le bouton "Valider" de la partie ajout de la modale déclenche la fonction addWork
 const confirmButton = document.getElementById("confirm");
