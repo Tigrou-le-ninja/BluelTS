@@ -18,10 +18,31 @@
 	</div>
 		<dialog class="modalTotal">
 			<div class="modalGallery" id="editGallery">
-				<div class="exitModal"><button id="closeModalBtn"><i class="fa-solid fa-xmark"></i></button></div>
-					<h3 class="modalTitle">Galerie photo</h3>
-				<div class="modalContent"> <!-- Insertion dynamique des photos réduites des projets --> </div>
+				<div class="exitModal"><button id="closeModalBtn1"><i class="fa-solid fa-xmark"></i></button></div>
+				<h3 class="modalTitle">Galerie photo</h3>
+				<div class="modalContent1"> <!-- Insertion dynamique des photos réduites des projets --> </div>
 				<button id="addPictureBtn">Ajouter une photo</button>
+			</div>
+			<div class="addPicture" id="addPicture">
+				<div class="modalHeader"><button id="goBack"><i class="fa-solid fa-arrow-left"></i></button><button id="closeModalBtn2"><i class="fa-solid fa-xmark"></i></button></div>
+				<h3 class="modalTitle">Ajout photo</h3>
+				<div class="modalContent2">
+					<form id="addPictureForm">
+						<div id="pictureZone">
+							<i class="fa-regular fa-image"></i>
+							<label for="picture" id="browsePictures">+ Ajouter photo</label>
+							<p>jpg, png : 4mo max</p>
+						</div>
+						<div id="picPreview">
+						</div>
+							<input type="file" class="picture" name="picture" id="picture" accept="image/png, image/jpeg">
+							<label for="title">Titre</label>
+							<input type="text" id="title" name="title">
+							<label for="selectCategory">Catégorie</label>
+							<select id="selectCategory" name="selectCategory"> <!-- Interaction avec l'API pour lister les catégories --> </select>
+					</form>
+				</div>
+				<input type="submit" id="confirm" value="Valider">
 			</div>
 		</dialog>
 <header>
