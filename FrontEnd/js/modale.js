@@ -1,45 +1,37 @@
-import {getCategories} from "./categories.js";
+import { displayWork } from "./main.js";
 
 // Générer dynamiquement le contenu de la partie ajout de la modale
-export function displayWorkModal (work) {
-    // Sélectionner le composant "modalContent1"
-    const modalContent1 = document.querySelector(".modalContent1");
+export function displayWorkModal(work) {
+  // Sélectionner le composant "modalContent1"
+  const modalContent1 = document.querySelector(".modalContent1");
 
-    // Création de l'élément "figure"
-    let figureElement = document.createElement("figure");
+  // Création de l'élément "figure"
+  let figureElement = document.createElement("figure");
+  figureElement.classList.add("fig");
+  figureElement.setAttribute("id", "modal_" + work.id);
+  figureElement.dataset.cat = work.categoryId;
 
-    // Création d'une classe "fig"
-    figureElement.classList.add("fig")
+  // Création de l'élément image
+  const imageElement = document.createElement("img");
+  imageElement.src = work.imageUrl;
+  imageElement.alt = work.title;
 
-    // Ajouter l'attribut "id" à l'élément "figureElement"
-    figureElement.setAttribute("id", "modal_" + work.id);
+  // Création du bouton de suppression
+  const deleteButton = document.createElement("button");
+  deleteButton.classList.add("deleteButton");
+  deleteButton.setAttribute("id", work.id);
+  deleteButton.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
+  deleteButton.addEventListener("click", () => {
+    deleteWork(work.id);
+  });
 
-    // Ajout attribut personnalisé "categoryID" à l'élément "figureElement"
-    figureElement.dataset.cat = work.categoryId;
+  // Ajout des éléments à la figure
+  figureElement.appendChild(imageElement);
+  figureElement.appendChild(deleteButton);
 
-    // Création de l'élément image
-    const imageElement = document.createElement("img");
-    imageElement.src = work.imageUrl;
-    imageElement.alt = work.title;
-
-    // Création de l'élément "deleteButton", d'une classe "deleteButton", d'un id qui est celui du work concerné, et d'une icône pour le bouton
-    const deleteButton = document.createElement("button");
-    deleteButton.classList.add("deleteButton");
-    deleteButton.setAttribute("id", work.id); // INUTILE
-    deleteButton.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
-    deleteButton.addEventListener("click", () => {
-      deleteWork(work.id); // Fonction commence ligne 107
-    })
-
-    // Insérer les éléments image, figcaption et deleteButton dans l'élement figure
-    figureElement.appendChild(imageElement);
-    figureElement.appendChild(deleteButton);
-
-    // Insérer l'élément figure dans la section "modalContent"
-    modalContent1.appendChild(figureElement);
+  // Ajout de la figure à la modale
+  modalContent1.appendChild(figureElement);
 }
-
-
 
 // Afficher la modale sous forme de boîte de dialogue quand on clique sur le bouton "Modifier"
 const dialog = document.querySelector("dialog");
@@ -56,7 +48,6 @@ const closeButton2 = document.getElementById("closeModalBtn2");
 closeButton1.addEventListener("click", () => {
   dialog.close();
 });
-
 closeButton2.addEventListener("click", () => {
   dialog.close();
 });
@@ -86,63 +77,54 @@ goBackButton.addEventListener("click", () => {
   editGallery.style.display = "flex";
 });
 
-
 // Fonction qui supprime un projet
-async function deleteWork (id) {
-  // Vérifier si l'utilisateur est connecté
+async function deleteWork(id) {
   if (!localStorage.getItem("token")) {
     return;
   }
-
-  // Appel à l'API par la route DELETE
   try {
-  const response = await fetch(`http://localhost:5678/api/works/${id}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: "Bearer " + localStorage.getItem("token")
+    const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Une erreur " + response.status + " s'est produite");
     }
-  });
-  if (!response.ok) {
-    throw new Error("Une erreur " + response.status + " s'est produite");
+    const figureElement = document.getElementById("modal_" + id);
+    if (figureElement) {
+      figureElement.remove();
+    }
+    const figure = document.getElementById("main_" + id);
+    if (figure) {
+      figure.remove();
+    }
+    alert("L'élément a été supprimé avec succès.");
+    closeButton1.click();
+  } catch (error) {
+    console.error("Erreur lors de la suppression de l'élément :", error);
+    alert("Une erreur s'est produite lors de la suppression de l'élément.");
+    return;
   }
-  // Supprimer l'élément de la galerie et de la moddale
-  const figureElement = document.getElementById("modal_" + id);
-  if (figureElement) {
-    figureElement.remove();
-  }
-  const figure = document.getElementById("main_" + id);
-  if (figure) {
-    figure.remove();
-  }
-  alert("L'élément a été supprimé avec succès.");
-  closeButton1.click(); // Fermer la modale après la suppression
-} catch (error) {
-  console.error("Erreur lors de la suppression de l'élément :", error);
-  alert("Une erreur s'est produite lors de la suppression de l'élément.");
-  return;
-}}
+}
 
 // Fonction qui remplit le sélecteur de catégories dans la partie ajout de la modale
-export async function displaySelectCategories (categories) {
-  // // Sélectionner le sélecteur de catégories
-  // const selectCategory = document.getElementById("selectCategory");
+export function displaySelectCategories(categories) {
+  const category = document.getElementById("category");
+  category.innerHTML = "";
 
-  // // Vider le sélecteur avant de le remplir
-  // selectCategory.innerHTML = "";
+  const emptyOption = document.createElement("option");
+  emptyOption.value = "";
+  emptyOption.textContent = "Sélectionner une catégorie";
+  category.appendChild(emptyOption);
 
-  // // Créer une option vide pour la sélection
-  // const emptyOption = document.createElement("option");
-  // emptyOption.value = "";
-  // emptyOption.textContent = "Sélectionner une catégorie";
-  // selectCategory.appendChild(emptyOption);
-
-  // // Remplir le sélecteur avec les catégories
-  // for (let category of categories) {
-  //   const option = document.createElement("option");
-  //   option.value = category.id;
-  //   option.textContent = category.name;
-  //   selectCategory.appendChild(option);
-  // }
+  for (let cat of categories) {
+    const option = document.createElement("option");
+    option.value = cat.id;
+    option.textContent = cat.name;
+    category.appendChild(option);
+  }
 }
 
 // Un click sur le bouton "Valider" de la partie ajout de la modale déclenche la fonction addWork
@@ -153,42 +135,52 @@ confirmButton.addEventListener("click", () => {
 
 // Fonction qui ajoute un projet
 async function addWork() {
-  // Vérifier si l'utilisateur est connecté
   if (!localStorage.getItem("token")) {
     return;
   }
 
-  // Récupération des données du formulaire
   const form = document.getElementById("addPictureForm");
   const formData = new FormData(form);
   const title = formData.get("title");
-  const categoryId = formData.get("selectCategory");
-  const picture = formData.get("picture");
+  const category = formData.get("category");
+  const image = formData.get("image");
 
-  // Appel à l'API par la route POST avec les données du formulaire
-    try {
-  const response = await fetch(`http://localhost:5678/api/works`, {
-    method: "POST",
-    headers: {
-      Authorization: "Bearer " + localStorage.getItem("token")
+  // Vérification des données de formData
+  const checkData = (formData) => {
+    let ret = true;
+    formData.forEach((value, key) => {
+      console.log(key + "__" + value);
+      if (typeof value === "undefined" || value === "" || value === null)
+        ret = false;
+    });
+    return ret;
+  };
+
+  console.log(checkData(formData));
+
+  try {
+    const response = await fetch(`http://localhost:5678/api/works`, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+        Accept: "application/json",
+      },
+      body: formData,
+    });
+
+    console.log(response);
+
+    if (!response.ok) {
+      throw new Error("Une erreur " + response.status + " s'est produite");
     }
-  });
-  if (!response.ok) {
-    throw new Error("Une erreur " + response.status + " s'est produite");
+    const ret = await response.json();
+    console.log(ret);
+    // Ici, vous pouvez ajouter le nouvel élément à la galerie si besoin
+    displayWorkModal(ret);
+    displayWork(ret);
+  } catch (error) {
+    console.error("Erreur lors de l'ajout de l'élément :", error);
+    alert("Une erreur s'est produite lors de l'ajout de l'élément.");
+    return;
   }
-  // Supprimer l'élément de la galerie et de la moddale
-  const figureElement = document.getElementById("modal_" + id);
-  if (figureElement) {
-    figureElement.remove();
-  }
-  const figure = document.getElementById("main_" + id);
-  if (figure) {
-    figure.remove();
-  }
-  alert("L'élément a été supprimé avec succès.");
-  closeButton1.click(); // Fermer la modale après la suppression
-} catch (error) {
-  console.error("Erreur lors de la suppression de l'élément :", error);
-  alert("Une erreur s'est produite lors de la suppression de l'élément.");
-  return;
-}}
+}

@@ -37,8 +37,11 @@ async function getWorks () {
     }
     catch (error) {alert(error)}
 }
-
-function displayWork (work) {
+/**
+ * Que fait la fonction
+ * @param {type du paramètre(ici un Object)} work 
+ */
+export function displayWork (work) {
     // Sélectionner le composant "gallery"
     const sectionGallery = document.querySelector(".gallery");
 
@@ -80,7 +83,7 @@ async function getCategories () {
        }
        const categories = await response.json ()
         displayCategories (categories)
-        // displaySelectCategories (categories)
+        displaySelectCategories (categories)
     }
     catch (error) {alert(error)}
 }
