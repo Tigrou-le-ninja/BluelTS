@@ -321,6 +321,39 @@ a:hover {
 /* Modale */
 
 /* Partie suppression */
+
+.modalGallery {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 20px;
+}
+
+.exitModal {
+	display: flex;
+	justify-content: flex-end;
+}
+
+#closeModalBtn1 {
+	background-color: white;
+	border: none;
+	color: black;
+	height: 24px;
+	width: 24px;
+}
+
+#closeModalBtn1 i {
+	font-size: 16px;
+}
+
+.modalTitle {
+	font-family: 'Work Sans';
+	font-weight: 400;
+	font-size: 26px;
+	text-align: center;
+	margin-bottom: 46px;
+}
+
 .modalContent1 {
 	display: flex;
 	flex-wrap: wrap;
