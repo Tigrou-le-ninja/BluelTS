@@ -13,7 +13,7 @@
 </head>
 <body>
 	<div class="edition-banner">
-		<i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+		<i class="fa-solid fa-pen-to-square" aria-hidden="true" id="editIcon1"></i>
 		<p>Mode édition</p>
 	</div>
 		<dialog class="modalTotal">
@@ -51,7 +51,7 @@
 		<ul>
 			<li>projets</li>
 			<li><a href="#contact">contact</a></li>
-			<li><a href="login.html">login</a></li>
+			<li class="login-or-logout"><a href="login.html">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -69,9 +69,11 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2> 
-		<i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-		<button id="edition" class="edit-button">Modifier</button>
+		<div class="portfolio-header">
+			<h2>Mes Projets</h2> 
+			<i class="fa-solid fa-pen-to-square" aria-hidden="true" id="editIcon2"></i>
+			<button id="edition" class="edit-button">modifier</button>
+		</div>
 		<div class = "filters">
 			<!-- Insertion dynamique des boutons de filtres -->
 		</div>

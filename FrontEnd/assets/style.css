@@ -123,8 +123,29 @@ li:hover {
 }
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
 }
+
+.portfolio-header {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 90px;
+	gap: 10px;
+}
+
+#editIcon1, #editIcon2 {
+	font-weight: 400;
+}
+
+.edit-button {
+	background-color: white;
+	color: black;
+	border: none;
+	font-family: 'Work Sans';
+	font-weight: 400;
+	font-size: 14px;
+}
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -178,6 +199,7 @@ input[type="submit"]{
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
+	border: none;
 }
 
 footer nav ul {
@@ -238,6 +260,7 @@ footer nav ul {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 	height: 51px;
 	width: 379px;
+	border: none;
 }
 
 .login input[type=submit] {

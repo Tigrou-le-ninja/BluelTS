@@ -10,13 +10,28 @@ document.addEventListener("DOMContentLoaded", (event) => {
 function isUserLoggedIn () {
     // Vérifier si le token existe dans le localStorage
     const token = localStorage.getItem("token");
+    // Récupérer les éléments dont l'affichage change en fonction de la connexion
     const editionBanner = document.querySelector(".edition-banner");
+    const editIcon2 = document.getElementById("editIcon2");
+    const editButton = document.querySelector(".edit-button");
+    const filters = document.querySelector(".filters");
+    const logInOrLogout = document.querySelector(".login-or-logout");
     if (token !== null) {
-        // style display flex à la div "edition-banner"
+        // Style display flex à la div "edition-banner", au bouton "Modifier" et à l'icône "fa-pen-to-square"
         editionBanner.style.display = "flex";
+        editIcon2.style.display = "flex";
+        editButton.style.display = "flex";
+        // Style display none à la div "filters"
+        filters.style.display = "none";
+        // Remplacer le texte "login" par "logout"
+        logInOrLogout.innerHTML = '<a href="login.html">logout</a>';
     } else {
-        // style display none à la div "edition-banner"
+        // Style display none à la div "edition-banner", au bouton "Modifier" et à l'icône "fa-pen-to-square"
         editionBanner.style.display = "none";
+        editIcon2.style.display = "none";
+        editButton.style.display = "none";
+        // Style display flex à la div "filters"
+        filters.style.display = "flex";
     }
     getWorks();
 }
