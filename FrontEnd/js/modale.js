@@ -184,3 +184,35 @@ async function addWork() {
     return;
   }
 }
+
+// Afficher une miniature de l'image sélectionnée
+  // Sélectionner les éléments en rapport avec l'aperçu de l'image
+  const preview = document.querySelector("#picturePreview");
+  const fileInput = document.querySelector("input[type=file]");
+
+  // Sélectionner les éléments qui vont disparaître pour laisser place à l'aperçu de l'image
+  const noPictureYet = document.querySelector("#noPictureYet");
+  const labelPicture = document.querySelector("#label-picture");
+  const pictureSize = document.querySelector("#pictureSize");
+
+fileInput.addEventListener("change", previewFile());
+
+function previewFile() {
+  const file = fileInput.files[0];
+  const reader = new FileReader();
+
+  reader.addEventListener("load", () => {
+      // Convertir l'image en string base64
+      preview.src = reader.result;
+    },
+    false,
+  );
+
+  if (file) {
+    reader.readAsDataURL(file);
+    // Cacher les éléments qui ne sont plus nécessaires
+    noPictureYet.style.display = "none";
+    labelPicture.style.display = "none";
+    pictureSize.style.display = "none";
+  }
+};
