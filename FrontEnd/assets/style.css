@@ -421,3 +421,98 @@ a:hover {
 }
 
 /* Partie ajout */
+
+.addPicture {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 20px;
+	flex-direction: column;
+}
+
+.modalHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#closeModalBtn2, #goBack {
+	background-color: white;
+	border: none;
+	color: black;
+	height: 24px;
+	width: 24px;
+}
+
+#goBack i {
+	font-size: 21px;
+}
+
+#closeModalBtn2 i {
+	font-size: 16px;
+}
+
+#pictureZone {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex-wrap: wrap;
+	width: 70%;
+  	gap: 10px;
+  	padding: 20px 0 30px 0;
+	margin: 0 auto;
+	background-color: #E8F1F6;
+	border-radius: 3px;
+}
+
+#pictureZone i {
+	font-size: 50px;
+	color: #B3B3B3;
+}
+
+#addPictureForm {
+	display: flex;
+	flex-direction: column;
+	width: 70%;
+  	gap: 10px;
+	margin: 0 auto;
+	border-bottom: 1px solid #B3B3B3;
+  	padding-bottom: 40px;
+}
+
+#addPictureForm input[type="text"] {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#addPictureForm select {
+	height: 50px;
+	font-size: 1.2em;
+	background-color: white;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#confirm {
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 14px;
+	color: white;
+	background-color: #A7A7A7;
+	margin : 2em auto ;
+	width: 237px;
+	height: 36px;
+	text-align: center;
+	border-radius: 60px ;
+	border: none;
+}
+
+#label-title, #label-category {
+	font-family: 'Work Sans';
+	font-weight: 500;
+	font-size: 14px;
+	color: #3D3D3D;
+	margin-bottom: 5px;
+}
