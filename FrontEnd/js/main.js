@@ -1,13 +1,15 @@
-import { displayWorkModal , displaySelectCategories } from "./modale.js";
+import { displayWorkModal, displaySelectCategories } from "./modale.js";
 
 // Tant que le DOM n'est pas chargé, on ne peut pas manipuler les éléments HTML
 // On attend que le DOM soit complètement chargé avant d'exécuter le script
 document.addEventListener("DOMContentLoaded", (event) => {
-  console.log("DOM fully loaded and parsed");
-  isUserLoggedIn();
+    console.log("DOM fully loaded and parsed");
+    getWorks();
+    isUserLoggedIn();
 });
 
-function isUserLoggedIn () {
+function isUserLoggedIn() {
+    console.log("isUserLoggedIn called");
     // Vérifier si le token existe dans le localStorage
     const token = localStorage.getItem("token");
     // Récupérer les éléments dont l'affichage change en fonction de la connexion
@@ -24,7 +26,10 @@ function isUserLoggedIn () {
         // Style display none à la div "filters"
         filters.style.display = "none";
         // Remplacer le texte "login" par "logout"
-        logInOrLogout.innerHTML = '<a href="login.html">logout</a>';
+        logInOrLogout.innerHTML = '<a href="/">logout</a>';
+        logInOrLogout.addEventListener("click", (event) => {
+            logoutLink();
+        });
     } else {
         // Style display none à la div "edition-banner", au bouton "Modifier" et à l'icône "fa-pen-to-square"
         editionBanner.style.display = "none";
@@ -33,30 +38,38 @@ function isUserLoggedIn () {
         // Style display flex à la div "filters"
         filters.style.display = "flex";
     }
-    getWorks();
 }
 
-async function getWorks () {
+function logoutLink() {
+    // Supprimer le token du localStorage
+    localStorage.removeItem("token");
+    isUserLoggedIn();
+}
+
+async function getWorks() {
     try {
-       const response = await fetch ("http://localhost:5678/api/works")
-       console.log(response)
-       if (!response.ok) {
-        throw new Error ("Une erreur " + response.status + " s'est produite")
-       }
-       const works = await response.json ()
-       for (let work of works) {
-        displayWork (work);
-        displayWorkModal(work);
-       }
-      // console.log(works)
+        const response = await fetch("http://localhost:5678/api/works");
+        console.log(response);
+        if (!response.ok) {
+            throw new Error(
+                "Une erreur " + response.status + " s'est produite"
+            );
+        }
+        const works = await response.json();
+        for (let work of works) {
+            displayWork(work);
+            displayWorkModal(work);
+        }
+        // console.log(works)
+    } catch (error) {
+        alert(error);
     }
-    catch (error) {alert(error)}
 }
 /**
  * Que fait la fonction
- * @param {type du paramètre(ici un Object)} work 
+ * @param {type du paramètre(ici un Object)} work
  */
-export function displayWork (work) {
+export function displayWork(work) {
     // Sélectionner le composant "gallery"
     const sectionGallery = document.querySelector(".gallery");
 
@@ -64,7 +77,7 @@ export function displayWork (work) {
     let figureElement = document.createElement("figure");
 
     // Création d'une classe "fig"
-    figureElement.classList.add("fig")
+    figureElement.classList.add("fig");
 
     // Ajouter l'attribut "id" à l'élément "figureElement"
     figureElement.setAttribute("id", "main_" + work.id);
@@ -89,94 +102,83 @@ export function displayWork (work) {
     sectionGallery.appendChild(figureElement);
 }
 // Fonction asynchrone pour récup les catégories (idem getWorks)
-async function getCategories () {
+async function getCategories() {
     try {
-       const response = await fetch ("http://localhost:5678/api/categories")
-       console.log(response)
-       if (!response.ok) {
-        throw new Error ("Une erreur " + response.status + " s'est produite")
-       }
-       const categories = await response.json ()
-        displayCategories (categories)
-        displaySelectCategories (categories)
-    }
-    catch (error) {alert(error)}
-}
-
-function displayCategories (categories) {
-
-   const filters = document.querySelector(".filters") 
-
-// Créer le bouton "Tous"
-        const boutonTous = document.createElement("button")
-        boutonTous.setAttribute("data-id", 0)
-        boutonTous.classList.add("boutonFiltre")
-        boutonTous.textContent = "Tous"
-        boutonTous.addEventListener("click", function (event) {
-            const id = Number(event.target.dataset.id)
-            applyFilter (id)
-        })
-
-        filters.appendChild(boutonTous)
-
-// Créer un bouton pour chaque catégorie
-        for (let category of categories) {
-            // Création du bouton
-            const boutonFiltreElement = document.createElement("button");
-
-            // Définir l'attribut data-id
-            boutonFiltreElement.setAttribute("data-id", category.id);
-
-            // Ajouter la classe CSS
-            boutonFiltreElement.classList.add("boutonFiltre");
-
-            // Définir le texte du bouton
-            boutonFiltreElement.textContent = category.name;
-
-            // Créer une fonction d'évènement "click" pour le bouton
-            boutonFiltreElement.addEventListener("click", function (event) {
-                // Identifiant de la catégorie contenu dans le bouton
-                const id = Number(event.target.dataset.id);
-
-                // Appliquer le filtre en fonction de l'identifiant catégorie
-                applyFilter (id);
-            });
-
-            filters.appendChild(boutonFiltreElement)
+        const response = await fetch("http://localhost:5678/api/categories");
+        console.log(response);
+        if (!response.ok) {
+            throw new Error(
+                "Une erreur " + response.status + " s'est produite"
+            );
         }
+        const categories = await response.json();
+        displayCategories(categories);
+        displaySelectCategories(categories);
+    } catch (error) {
+        alert(error);
+    }
 }
 
-getCategories()
+function displayCategories(categories) {
+    const filters = document.querySelector(".filters");
 
-function applyFilter (id) {
-const allClass = document.getElementsByClassName("fig")
-for (let element of allClass) {
-    if (id != 0) {
-        console.log(parseInt(element.dataset.cat))
-         if (parseInt(element.dataset.cat) != id)
-       element.classList.add("hid")
-    else {
-        if (element.classList.contains("hid")) {
-        element.classList.remove("hid")
+    // Créer le bouton "Tous"
+    const boutonTous = document.createElement("button");
+    boutonTous.setAttribute("data-id", 0);
+    boutonTous.classList.add("boutonFiltre");
+    boutonTous.textContent = "Tous";
+    boutonTous.addEventListener("click", function (event) {
+        const id = Number(event.target.dataset.id);
+        applyFilter(id);
+    });
+
+    filters.appendChild(boutonTous);
+
+    // Créer un bouton pour chaque catégorie
+    for (let category of categories) {
+        // Création du bouton
+        const boutonFiltreElement = document.createElement("button");
+
+        // Définir l'attribut data-id
+        boutonFiltreElement.setAttribute("data-id", category.id);
+
+        // Ajouter la classe CSS
+        boutonFiltreElement.classList.add("boutonFiltre");
+
+        // Définir le texte du bouton
+        boutonFiltreElement.textContent = category.name;
+
+        // Créer une fonction d'évènement "click" pour le bouton
+        boutonFiltreElement.addEventListener("click", function (event) {
+            // Identifiant de la catégorie contenu dans le bouton
+            const id = Number(event.target.dataset.id);
+
+            // Appliquer le filtre en fonction de l'identifiant catégorie
+            applyFilter(id);
+        });
+
+        filters.appendChild(boutonFiltreElement);
+    }
+}
+
+getCategories();
+
+function applyFilter(id) {
+    const allClass = document.getElementsByClassName("fig");
+    for (let element of allClass) {
+        if (id != 0) {
+            console.log(parseInt(element.dataset.cat));
+            if (parseInt(element.dataset.cat) != id)
+                element.classList.add("hid");
+            else {
+                if (element.classList.contains("hid")) {
+                    element.classList.remove("hid");
+                }
+            }
+        } else {
+            if (element.classList.contains("hid")) {
+                element.classList.remove("hid");
+            }
         }
     }
-    } else {
-    if (element.classList.contains("hid")) {
-        element.classList.remove("hid")
-        }
-    }
 }
-}
-
-// Déconnecter l'utilisateur quand il clique sur "logout"
-    // Sélectionner le lien logout
-    const logoutLink = document.getElementById("logInOrOutLink");
-
-    // Ajouter l'écouteur d'événement
-    logoutLink.addEventListener("click", function(event) {
-        if (logoutLink.textContent === "logout") {
-            event.preventDefault(); // Empêche la navigation
-            localStorage.removeItem("token");
-            window.location.href = "index.html";
-    }
-});
