@@ -168,9 +168,15 @@ for (let element of allClass) {
 }
 }
 
-function activateButton () {
-    const allButtons = document.getElementsByClassName("button")
-    for (let button of allButtons) {
-    button.classList.toggle("activeButtton")
+// Déconnecter l'utilisateur quand il clique sur "logout"
+    // Sélectionner le lien logout
+    const logoutLink = document.querySelector(".login-or-logout a");
+
+    // Ajouter l'écouteur d'événement
+    logoutLink.addEventListener("click", function(event) {
+        if (logoutLink.textContent === "logout") {
+            event.preventDefault(); // Empêche la navigation
+            localStorage.removeItem("token");
+            window.location.href = "index.html";
     }
-}
+});
