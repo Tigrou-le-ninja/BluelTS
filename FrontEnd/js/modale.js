@@ -65,10 +65,11 @@ const addPicture = document.getElementById("addPicture");
 const editGallery = document.getElementById("editGallery");
 const goBackButton = document.getElementById("goBack");
 
-// Un click sur le bouton "Ajouter une photo" ouvre la partie ajout de la modale
+// Un click sur le bouton "Ajouter une photo" ouvre la partie ajout de la modale et vérifie si les champs sont remplis
 addPictureBtn.addEventListener("click", () => {
   addPicture.style.display = "flex";
   editGallery.style.display = "none";
+  checkFormValidity(); // Fonction commence ligne 222
 });
 
 // Un click sur le bouton "goBack" ferme la partie ajout de la modale et revient sur la partie suppression
@@ -210,9 +211,23 @@ function previewFile() {
 
   if (file) {
     reader.readAsDataURL(file);
-    // Cacher les éléments qui ne sont plus nécessaires
+    // Cacher les éléments qui ne sont plus nécessaires et afficher la preview
     noPictureYet.style.display = "none";
     labelPicture.style.display = "none";
     pictureSize.style.display = "none";
+    preview.style.display = "block";
   }
 };
+
+// Quand tous les champs sont remplis, le bouton "Valider" devient cliquable
+const titleInput = document.querySelector("#title");
+const categoryInput = document.querySelector("#category");
+const imageInput = document.querySelector("#image");
+function checkFormValidity() {
+  if (titleInput.value !== "" && categoryInput.value !== ""  && imageInput.files.length > 0) {
+    confirmButton.disabled = false;
+    confirmButton.style.backgroundColor = "#1D6154";
+  } else {
+    confirmButton.disabled = true;
+  }
+}
