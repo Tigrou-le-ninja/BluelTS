@@ -69,7 +69,6 @@ const goBackButton = document.getElementById("goBack");
 addPictureBtn.addEventListener("click", () => {
   addPicture.style.display = "flex";
   editGallery.style.display = "none";
-  checkFormValidity(); // Fonction commence ligne 222
 });
 
 // Un click sur le bouton "goBack" ferme la partie ajout de la modale et revient sur la partie suppression
@@ -223,8 +222,13 @@ function previewFile() {
 const titleInput = document.querySelector("#title");
 const categoryInput = document.querySelector("#category");
 const imageInput = document.querySelector("#image");
+
+titleInput.addEventListener("change", checkFormValidity());
+categoryInput.addEventListener("change", checkFormValidity());
+imageInput.addEventListener("change", checkFormValidity());
+
 function checkFormValidity() {
-  if (titleInput.value !== "" && categoryInput.value !== ""  && imageInput.files.length > 0) {
+  if (titleInput.value !== "" && categoryInput.textContent !== "Sélectionner une catégorie"  && imageInput.files.length > 0) {
     confirmButton.disabled = false;
     confirmButton.style.backgroundColor = "#1D6154";
   } else {
