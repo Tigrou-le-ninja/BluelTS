@@ -170,7 +170,7 @@ for (let element of allClass) {
 
 // Déconnecter l'utilisateur quand il clique sur "logout"
     // Sélectionner le lien logout
-    const logoutLink = document.querySelector(".login-or-logout a");
+    const logoutLink = document.getElementById("logInOrOutLink");
 
     // Ajouter l'écouteur d'événement
     logoutLink.addEventListener("click", function(event) {
