@@ -1,6 +1,10 @@
 import { displayWork } from "./main.js";
 
-// Générer dynamiquement le contenu de la partie ajout de la modale
+/**
+ * On itère sur chaque élément de la liste "works" de la base de données afin de remplir la div "modalContent1" de la page index.html
+ * Détails des manipulations ci-dessous
+ * @param {Object} work
+ */
 export function displayWorkModal(work) {
     // Sélectionner le composant "modalContent1"
     const modalContent1 = document.querySelector(".modalContent1");
@@ -48,6 +52,7 @@ const closeButton2 = document.getElementById("closeModalBtn2");
 closeButton1.addEventListener("click", () => {
     dialog.close();
 });
+
 closeButton2.addEventListener("click", () => {
     dialog.close();
 });
@@ -77,8 +82,15 @@ goBackButton.addEventListener("click", () => {
     editGallery.style.display = "flex";
 });
 
-// Fonction qui supprime un projet
+/**
+ * On vérifie l'état de connexion de l'utilisateur avant toute interaction avec l'API
+ * Si l'utilisateur est connecté, on envoie l'id du bouton (= l'id du projet) à la base de données et on attend la réponse
+ * Si la réponse est positive (= projet supprimé de la base de données), on supprime l'élément de la modale et de la galerie principale
+ * Si la suppression échoue, on affiche un message d'erreur
+ * @param {Number} id 
+ */
 async function deleteWork(id) {
+    // Vérifie si l'utilisateur est connecté
     if (!localStorage.getItem("token")) {
         return;
     }
@@ -103,6 +115,8 @@ async function deleteWork(id) {
             figure.remove();
         }
         alert("L'élément a été supprimé avec succès.");
+
+        // On ferme la modale après la suppression
         closeButton1.click();
     } catch (error) {
         console.error("Erreur lors de la suppression de l'élément :", error);
@@ -111,16 +125,23 @@ async function deleteWork(id) {
     }
 }
 
-// Fonction qui remplit le sélecteur de catégories dans la partie ajout de la modale
+/**
+ * On itère sur chaque élément de la liste "categories" de la base de données afin de remplir le select "category" de la modale
+ * Détails des manipulations ci-dessous
+ * @param {Object} categories 
+ */
 export function displaySelectCategories(categories) {
+    // On récupère le select "category" de la modale
     const category = document.getElementById("category");
     category.innerHTML = "";
 
+    // On crée une option par défaut qui n'est pas vide
     const emptyOption = document.createElement("option");
     emptyOption.value = "";
     emptyOption.textContent = "Sélectionner une catégorie";
     category.appendChild(emptyOption);
 
+    // On itère sur la liste des catégories et on crée une option pour chacune d'entre elles
     for (let cat of categories) {
         const option = document.createElement("option");
         option.value = cat.id;
@@ -137,6 +158,7 @@ confirmButton.addEventListener("click", () => {
 
 // Fonction qui ajoute un projet
 async function addWork() {
+    // Vérifie si l'utilisateur est connecté
     if (!localStorage.getItem("token")) {
         return;
     }
@@ -157,6 +179,7 @@ async function addWork() {
 
     console.log(checkData(formData));
 
+    // Si les données sont valides, on envoie la requête à l'API
     try {
         const response = await fetch(`http://localhost:5678/api/works`, {
             method: "POST",
@@ -192,10 +215,12 @@ async function addWork() {
         noPictureYet.style.display = "block"; 
         labelPicture.style.display = "block"; 
         pictureSize.style.display = "block";
+
         // pictureZone reprend ses propriétés initiales
         pictureZone.style.padding = "25px 0"; 
         pictureZone.style.height = "119px";
 
+        // On ferme la modale après l'ajout
         closeButton2.click();
     } catch (error) {
         console.error("Erreur lors de l'ajout de l'élément :", error);
@@ -218,19 +243,28 @@ const pictureZone = document.querySelector("#pictureZone");
 const titleInput = document.getElementById("title");
 const categoryInput = document.getElementById("category");
 const imageInput = document.getElementById("image");
+
 console.log("titleInput", titleInput);
+
 titleInput.addEventListener("keyup", () => {
     checkFormValidity();
 });
+
 categoryInput.addEventListener("change", () => {
     checkFormValidity();
 });
+
 imageInput.addEventListener("change", (event) => {
     console.log("Image input changed");
     previewFile(event);
     checkFormValidity();
 });
 
+/**
+ * Quand l'utilisateur sélectionne une image, on affiche un aperçu de celle-ci
+ * On utilise FileReader pour lire le fichier et afficher l'image dans l'élément <img> avec l'id "picturePreview"
+ * @param {event} event 
+ */
 function previewFile(event) {
     console.log("previewFile called");
     const file = event.target.files[0];
@@ -246,17 +280,21 @@ function previewFile(event) {
     );
     if (file) {
         reader.readAsDataURL(file);
+
         // Cacher les éléments qui ne sont plus nécessaires et afficher la preview
         noPictureYet.style.display = "none";
         labelPicture.style.display = "none";
         pictureSize.style.display = "none";
         preview.style.display = "block";
+
         // pictureZone change de propriétés pour accomoder la preview
         pictureZone.style.padding = "0";
         pictureZone.style.height = "169px";
     }
 }
 
+// Vérifier si tous les champs sont remplis pour activer le bouton "Valider"
+// Si tous les champs sont remplis, le bouton est activé et sa couleur change
 function checkFormValidity() {
     console.log("checkFormValidity called");
     if (

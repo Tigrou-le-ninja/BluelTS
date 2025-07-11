@@ -4,7 +4,8 @@ import { displayWorkModal, displaySelectCategories } from "./modale.js";
 // On attend que le DOM soit complètement chargé avant d'exécuter le script
 document.addEventListener("DOMContentLoaded", (event) => {
     console.log("DOM fully loaded and parsed");
-    getWorks();
+    getWorks(); // Fonction ligne 50
+    getCategories(); // Fonction ligne 108
     isUserLoggedIn();
 });
 
@@ -19,23 +20,23 @@ function isUserLoggedIn() {
     const filters = document.querySelector(".filters");
     const logInOrLogout = document.querySelector(".login-or-logout");
     if (token !== null) {
-        // Style display flex à la div "edition-banner", au bouton "Modifier" et à l'icône "fa-pen-to-square"
+        // Affiche la div "edition-banner", au bouton "Modifier" et à l'icône "fa-pen-to-square"
         editionBanner.style.display = "flex";
         editIcon2.style.display = "flex";
         editButton.style.display = "flex";
-        // Style display none à la div "filters"
+        // Cache la div "filters"
         filters.style.display = "none";
-        // Remplacer le texte "login" par "logout"
+        // Remplace le texte "login" par "logout" + change le comportement du lien
         logInOrLogout.innerHTML = '<a href="/">logout</a>';
         logInOrLogout.addEventListener("click", (event) => {
             logoutLink();
         });
     } else {
-        // Style display none à la div "edition-banner", au bouton "Modifier" et à l'icône "fa-pen-to-square"
+        // Cache la div "edition-banner", au bouton "Modifier" et à l'icône "fa-pen-to-square"
         editionBanner.style.display = "none";
         editIcon2.style.display = "none";
         editButton.style.display = "none";
-        // Style display flex à la div "filters"
+        // Affiche la div "filters"
         filters.style.display = "flex";
     }
 }
@@ -58,16 +59,17 @@ async function getWorks() {
         const works = await response.json();
         for (let work of works) {
             displayWork(work);
-            displayWorkModal(work);
+            displayWorkModal(work); // Fonction : modale.js ligne 8
         }
-        // console.log(works)
     } catch (error) {
         alert(error);
     }
 }
+
 /**
- * Que fait la fonction
- * @param {type du paramètre(ici un Object)} work
+ * On itère sur chaque élément de la liste "works" de la base de données afin de remplir la div "gallery" de la page index.html
+ * Détails des manipulations ci-dessous
+ * @param {Object} work
  */
 export function displayWork(work) {
     // Sélectionner le composant "gallery"
@@ -82,7 +84,7 @@ export function displayWork(work) {
     // Ajouter l'attribut "id" à l'élément "figureElement"
     figureElement.setAttribute("id", "main_" + work.id);
 
-    // Ajout attribut personnalisé "categoryID" à l'élément "figureElement"
+    // Ajout d'un attribut cat à l'élément, correspondant à la catégorie du projet dans le base de données
     figureElement.dataset.cat = work.categoryId;
 
     // Création de l'élément image
@@ -101,7 +103,8 @@ export function displayWork(work) {
     // Insérer l'élément figure dans la section "gallery"
     sectionGallery.appendChild(figureElement);
 }
-// Fonction asynchrone pour récup les catégories (idem getWorks)
+
+// Fonction asynchrone pour récupérer les catégories (fonctionne comme getWorks)
 async function getCategories() {
     try {
         const response = await fetch("http://localhost:5678/api/categories");
@@ -113,12 +116,17 @@ async function getCategories() {
         }
         const categories = await response.json();
         displayCategories(categories);
-        displaySelectCategories(categories);
+        displaySelectCategories(categories); // Fonction : modale.js ligne 133
     } catch (error) {
         alert(error);
     }
 }
 
+/**
+ * On itère sur chaque élément de la liste "categories" de la base de données afin de remplir la div "filters" de la page index.html
+ * Détails des manipulations ci-dessous
+ * @param {Object} categories 
+ */
 function displayCategories(categories) {
     const filters = document.querySelector(".filters");
 
@@ -129,7 +137,7 @@ function displayCategories(categories) {
     boutonTous.textContent = "Tous";
     boutonTous.addEventListener("click", function (event) {
         const id = Number(event.target.dataset.id);
-        applyFilter(id);
+        applyFilter(id); // Fonction ligne 178
     });
 
     filters.appendChild(boutonTous);
@@ -161,8 +169,12 @@ function displayCategories(categories) {
     }
 }
 
-getCategories();
-
+/**
+ * On compare l'id du bouton avec celui du projet et agit en conséquence
+ * Si l'id du bouton est égal à 0, on affiche tous les projets
+ * Si l'id du bouton est différent de 0, on affiche uniquement les projets de la catégorie correspondante
+ * @param {Number} id 
+ */
 function applyFilter(id) {
     const allClass = document.getElementsByClassName("fig");
     for (let element of allClass) {

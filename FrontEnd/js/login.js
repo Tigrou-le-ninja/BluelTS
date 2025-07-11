@@ -1,3 +1,4 @@
+// Les informations de connexion de l'utilisateur sont stockées dans un objet que l'on passe ensuite à la fonction connexion()
 const form = document.getElementById("login");
 
 form.addEventListener("submit", function (event) {
@@ -17,6 +18,12 @@ form.addEventListener("submit", function (event) {
     connexion(user);
 });
 
+/**
+ * On poste les identifiants de connexion de l'utilisateur à l'API
+ * Si la connexion est réussie, on stocke le token dans le localStorage et on redirige vers la page index.html
+ * Si la connexion échoue, on affiche un message d'erreur
+ * @param {Object} user 
+ */
 async function connexion(user) {
     const msgError = document.getElementById("login-error");
     msgError.textContent = "";
@@ -43,7 +50,6 @@ async function connexion(user) {
         localStorage.setItem("token", data.token); 
         window.location.href = "./index.html"; 
     } catch (error) {
-        // alert(error);
         if (msgError) {
             msgError.textContent = "Identifiant ou mot de passe incorrect";
         }

@@ -225,7 +225,7 @@ footer nav ul {
 	width: 100%;
 	justify-content: center;
 	gap: 10px;
-	margin: 50px;
+	margin: 50px 0;
 }
 
 .boutonFiltre {
