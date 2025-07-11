@@ -65,7 +65,7 @@ const addPicture = document.getElementById("addPicture");
 const editGallery = document.getElementById("editGallery");
 const goBackButton = document.getElementById("goBack");
 
-// Un click sur le bouton "Ajouter une photo" ouvre la partie ajout de la modale et vérifie si les champs sont remplis
+// Un click sur le bouton "Ajouter une photo" ouvre la partie ajout de la modale
 addPictureBtn.addEventListener("click", () => {
     addPicture.style.display = "flex";
     editGallery.style.display = "none";
@@ -143,9 +143,6 @@ async function addWork() {
 
     const form = document.getElementById("addPictureForm");
     const formData = new FormData(form);
-    const title = formData.get("title");
-    const category = formData.get("category");
-    const image = formData.get("image");
 
     // Vérification des données de formData
     const checkData = (formData) => {
@@ -179,9 +176,27 @@ async function addWork() {
         }
         const ret = await response.json();
         console.log(ret);
-        // Ici, vous pouvez ajouter le nouvel élément à la galerie si besoin
+
+        // Ajout du nouvel élément aux galeries
         displayWorkModal(ret);
         displayWork(ret);
+        alert("L'élément a été ajouté avec succès.");
+
+        //Réinitialisation du formulaire
+        form.reset();
+        checkFormValidity();
+
+        // L'aperçu de l'image disparaît, les éléments présents avant réapparaissent
+        preview.src = ""; 
+        preview.style.display = "none"; 
+        noPictureYet.style.display = "block"; 
+        labelPicture.style.display = "block"; 
+        pictureSize.style.display = "block";
+        // pictureZone reprend ses propriétés initiales
+        pictureZone.style.padding = "25px 0"; 
+        pictureZone.style.height = "119px";
+
+        closeButton2.click();
     } catch (error) {
         console.error("Erreur lors de l'ajout de l'élément :", error);
         alert("Une erreur s'est produite lors de l'ajout de l'élément.");
@@ -192,12 +207,12 @@ async function addWork() {
 // Afficher une miniature de l'image sélectionnée
 // Sélectionner les éléments en rapport avec l'aperçu de l'image
 const preview = document.querySelector("#picturePreview");
-//const fileInput = document.getElementById("image"); //document.querySelector("input[type=file]");
 
-// Sélectionner les éléments qui vont disparaître pour laisser place à l'aperçu de l'image
+// Sélectionner les éléments dont les propriétés changent à l'aperçu de l'image
 const noPictureYet = document.querySelector("#noPictureYet");
 const labelPicture = document.querySelector("#label-picture");
 const pictureSize = document.querySelector("#pictureSize");
+const pictureZone = document.querySelector("#pictureZone");
 
 // Quand tous les champs sont remplis, le bouton "Valider" devient cliquable
 const titleInput = document.getElementById("title");
@@ -210,7 +225,6 @@ titleInput.addEventListener("keyup", () => {
 categoryInput.addEventListener("change", () => {
     checkFormValidity();
 });
-//fileInput.addEventListener("change", previewFile());
 imageInput.addEventListener("change", (event) => {
     console.log("Image input changed");
     previewFile(event);
@@ -237,6 +251,9 @@ function previewFile(event) {
         labelPicture.style.display = "none";
         pictureSize.style.display = "none";
         preview.style.display = "block";
+        // pictureZone change de propriétés pour accomoder la preview
+        pictureZone.style.padding = "0";
+        pictureZone.style.height = "169px";
     }
 }
 
@@ -251,5 +268,6 @@ function checkFormValidity() {
         confirmButton.style.backgroundColor = "#1D6154";
     } else {
         confirmButton.disabled = true;
+        confirmButton.style.backgroundColor = "#A7A7A7";
     }
 }
