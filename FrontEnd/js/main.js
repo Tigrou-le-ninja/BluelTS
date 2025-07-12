@@ -27,7 +27,7 @@ function isUserLoggedIn() {
         // Cache la div "filters"
         filters.style.display = "none";
         // Remplace le texte "login" par "logout" + change le comportement du lien
-        logInOrLogout.innerHTML = '<a href="/">logout</a>';
+        logInOrLogout.innerHTML = '<a href="./index.html">logout</a>';
         logInOrLogout.addEventListener("click", (event) => {
             logoutLink();
         });
@@ -84,7 +84,7 @@ export function displayWork(work) {
     // Ajouter l'attribut "id" à l'élément "figureElement"
     figureElement.setAttribute("id", "main_" + work.id);
 
-    // Ajout d'un attribut cat à l'élément, correspondant à la catégorie du projet dans le base de données
+    // Ajout d'un attribut cat à l'élément, correspondant à la catégorie du projet dans la base de données
     figureElement.dataset.cat = work.categoryId;
 
     // Création de l'élément image
